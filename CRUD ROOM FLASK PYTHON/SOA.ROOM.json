@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "654f4fe802244a78e596be0a"
+  },
+  "room_name": "HUMYAIMAK",
+  "room_description": "YAISUDSUD",
+  "room_participants": "50"
+},
+{
+  "_id": {
+    "$oid": "654f7f8d4856634aca82516a"
+  },
+  "room_name": "HUMYAIMAK45454",
+  "room_description": "YAISUDSUD455454",
+  "room_participants": "50"
+},
+{
+  "_id": {
+    "$oid": "654f7fd54856634aca82516b"
+  },
+  "room_name": "WorkSpace01",
+  "room_description": "YAISUDSUD455454",
+  "room_participants": "50"
+}]
