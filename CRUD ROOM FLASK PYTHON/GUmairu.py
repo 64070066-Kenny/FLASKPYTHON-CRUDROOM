@@ -1,14 +1,17 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from bson import ObjectId
+from flask_cors import CORS
+
 
 
 client = MongoClient("mongodb://localhost:27017")
-db = client["SOP"]
+db = client["SOA"]
 collection = db["BookingRoom"]
 collection1 = db["ROOM"]
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/purpose")
 def requestpur():
@@ -19,6 +22,47 @@ def requestpur():
         pur.append(x['purpose'])
         print(x)
     return jsonify({'purposed': pur})
+
+@app.route("/GetRoom")
+def getRoom():
+    # Your existing code...
+
+    rooms = []
+    for room in collection1.find():
+        rooms.append(room['room_name'])
+
+    response = jsonify({'room_name': rooms})
+    response.headers.add('Access-Control-Allow-Origin', '*')  # Allow requests from any origin
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    
+    return response
+
+@app.route("/GetAllRoom")
+def getAllRoom():
+    rooms = []
+    for room in collection1.find():
+        room_data = {
+            'room_id': str(room['_id']),
+            'room_name': room['room_name'],
+            'room_description': room['room_description'],
+            'room_participants': room['room_participants'],
+        }
+        rooms.append(room_data)
+
+    response = jsonify({'rooms': rooms})
+    response.headers.add('Access-Control-Allow-Origin', '*')  # Allow requests from any origin
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    return response
+
+@app.route("/getById/<string:id>")
+def getById(id):
+    for x in collection.find():
+        x['_id'] = str(x['_id'])
+        if x['_id'] == id:
+            return jsonify({'room': x})
+
 
 @app.route("/detailpurpose/<string:id>")
 def detail(id):
